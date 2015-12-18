@@ -38,6 +38,7 @@
 #include <string.h>
 
 #ifdef _MSC_VER
+#include <malloc.h>
 #pragma warning(suppress: 6262) // excessive stack usage
 #pragma warning(suppress: 6263) // using alloca in a loop
 #pragma warning(suppress: 6255) // _alloca indicates failure by raising a stack overflow exception

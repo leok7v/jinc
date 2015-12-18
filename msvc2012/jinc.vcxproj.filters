@@ -32,7 +32,7 @@
     <ClCompile Include="..\src\s2s.c">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="..\src\map.c.template">
+    <ClCompile Include="..\src\map.c">
       <Filter>src</Filter>
     </ClCompile>
   </ItemGroup>

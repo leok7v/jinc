@@ -380,12 +380,12 @@
   <ItemGroup>
     <ClCompile Include="..\main.c" />
     <ClCompile Include="..\src\clock.c" />
+    <ClCompile Include="..\src\map.c" />
     <ClCompile Include="..\src\s2i.c" />
     <ClCompile Include="..\src\i2i.c" />
     <ClCompile Include="..\src\s2s.c" />
     <ClCompile Include="..\src\str2str.c" />
     <ClCompile Include="..\src\str.c" />
-    <ClCompile Include="..\src\map.c.template" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\inc\clock.h" />
