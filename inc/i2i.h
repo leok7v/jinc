@@ -42,8 +42,8 @@ extern "C" {
 typedef void* i2i_t;
 
 i2i_t   i2i_create(int capacity, boolean can_grow); 
-int64_t i2i_get(const i2i_t m, int64_t k); /* ~ 20 microseconds i7 2.4Ghz x64 release */
-boolean i2i_put(i2i_t m, int64_t k, int64_t v); /* ~ 8 microseconds i7 2.4Ghz x64 release */
+int64_t i2i_get(const i2i_t m, int64_t k); /* ~ 20 nanoseconds i7 2.4Ghz x64 release */
+boolean i2i_put(i2i_t m, int64_t k, int64_t v); /* ~ 8 nanoseconds i7 2.4Ghz x64 release */
 boolean i2i_put_all(i2i_t destination, const i2i_t source);
 void    i2i_remove(i2i_t map, int64_t key);
 int     i2i_size(const i2i_t m);
