@@ -1,0 +1,75 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="res">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="h">
+      <UniqueIdentifier>{5d231c39-0b78-4537-bdf9-1bba85ba8189}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src">
+      <UniqueIdentifier>{775dde93-1f0e-49e8-9562-94b0fcce97e7}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\src\i2i.c">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\str.c">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\main.c" />
+    <ClCompile Include="..\src\s2i.c">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\clock.c">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\str2str.c">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\s2s.c">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\map.c.template">
+      <Filter>src</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\res\resource.h">
+      <Filter>res</Filter>
+    </ClInclude>
+    <ClInclude Include="..\inc\i2i.h">
+      <Filter>h</Filter>
+    </ClInclude>
+    <ClInclude Include="..\inc\str.h">
+      <Filter>h</Filter>
+    </ClInclude>
+    <ClInclude Include="..\inc\s2i.h">
+      <Filter>h</Filter>
+    </ClInclude>
+    <ClInclude Include="..\inc\clock.h">
+      <Filter>h</Filter>
+    </ClInclude>
+    <ClInclude Include="..\inc\std.h">
+      <Filter>h</Filter>
+    </ClInclude>
+    <ClInclude Include="..\inc\str2str.h">
+      <Filter>h</Filter>
+    </ClInclude>
+    <ClInclude Include="..\inc\s2s.h">
+      <Filter>h</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="..\res\c.ico">
+      <Filter>res</Filter>
+    </Image>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="..\res\main.rc">
+      <Filter>res</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+</Project>
