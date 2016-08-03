@@ -140,8 +140,10 @@ int _main(int argc, const char **argv) {
     return 0;
 }
 
-static void after_main(void) { printf("called after main()\n"); }
-static_void() { printf("called before main\n"); atexit(after_main); }
+static void after_main1(void) { printf("called after main() 1\n"); }
+static void after_main2(void) { printf("called after main() 2\n"); }
+static_init { printf("called before main 1\n"); atexit(after_main1); }
+static_init { printf("called before main 2\n"); atexit(after_main2); }
 
 int main(int argc, const char **argv) {
     (void) argc;

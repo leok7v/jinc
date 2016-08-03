@@ -33,22 +33,27 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+#define _STATIC_INIT_EXPAND_(a) a
+#define _STATIC_INIT_CONCATENATE_(a, b) _STATIC_INIT_EXPAND_(a) ## _STATIC_INIT_EXPAND_(b)
+#define _STATIC_INIT_ _static_init_
 #if defined(_MSC_VER)
     #pragma section(".CRT$XCU",read)
     #ifdef _WIN64
-        #define _static_void_(f) static void f(void); __declspec(allocate(".CRT$XCU")) void (*f##_)(void) = f; __pragma(comment(linker,"/include:" #f "_")) static void f(void)
+        #define _static_init_(f, c) static void f##c(void); __declspec(allocate(".CRT$XCU")) void (*f##c##_)(void) = f##c; __pragma(comment(linker,"/include:" #f #c "_")) static void f##c(void)
     #else
-        #define _static_void_(f) static void f(void); __declspec(allocate(".CRT$XCU")) void (*f##_)(void) = f; __pragma(comment(linker,"/include:_" #f "_")) static void f(void)
+        #define _static_init_(f, c) static void f##c(void); __declspec(allocate(".CRT$XCU")) void (*f##c##_)(void) = f##c; __pragma(comment(linker,"/include:_" #f #c "_")) static void f##c(void)
     #endif
-    #define static_void() _static_void_(__FILE__##__LINE__##_static)
+    #define static_init_(f, c) _static_init_(f, c)
+    #define static_init static_init_(_STATIC_INIT_EXPAND_(_STATIC_INIT_),_STATIC_INIT_EXPAND_(__COUNTER__))
 #else
-    #define static_void() static void __FILE__##__LINE__##_static(void) __attribute__((constructor)); static void __FILE__##__LINE__##_static(void)
+    #define static_init_(f, c) __attribute__((constructor)) static void f##c (void)
+    #define static_init static_init_(_STATIC_INIT_EXPAND_(_STATIC_INIT_),_STATIC_INIT_EXPAND_(__COUNTER__))
 #endif
 
 /* 
     same as Java:
     static {
-        System.out.println("called after main()\n");
+        System.out.println("called before main()\n");
     }
     usage:
     static void after_main(void) { printf("called after main()\n"); }
