@@ -5,7 +5,10 @@
 #include "s2i.h"
 #include "clock.h"
 #include "static_init.h"
-#ifdef _MSC_VER
+#if defined(_MSC_VER) && (defined(DEBUG) || defined(_DEBUG))
+#define _CRTDBG_MAP_ALLOC
+#undef strdup
+#undef _malloca
 #include <crtdbg.h>
 #endif
 
@@ -131,35 +134,18 @@ static void str2str_map_test() {
     i2i_dispose(map);
 }
 
-int _main(int argc, const char **argv) {
-    (void) argc;
-    (void) argv;
-    str_test();
-    str2str_map_test();
-    getchar();
-    return 0;
-}
-
 static void after_main1(void) { printf("called after main() 1\n"); }
 static void after_main2(void) { printf("called after main() 2\n"); }
-static_init { printf("called before main 1\n"); atexit(after_main1); }
-static_init { printf("called before main 2\n"); atexit(after_main2); }
 
-int main(int argc, const char **argv) {
-    (void) argc;
-    (void) argv;
-#if defined(_MSC_VER) && defined(DEBUG)
-    _CrtMemState s1;
-    _CrtMemCheckpoint(&s1);
-    _CrtSetDbgFlag((_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF) & ~_CRTDBG_CHECK_CRT_DF);
-//  _CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF | _CRTDBG_CHECK_CRT_DF | _CRTDBG_CHECK_ALWAYS_DF);
-/*
-    _crtBreakAlloc = 241; // {241} crt block at 0x012B13E8, subtype 0, 24 bytes long
-    _CrtSetBreakAlloc(241);
-*/
+static_init(before_main) { printf("called before main 1\n"); atexit(after_main1); }
+static_init(before_main) { printf("called before main 2\n"); atexit(after_main2); }
+
+#if defined(_MSC_VER) && (defined(DEBUG) || defined(_DEBUG))
+static _CrtMemState s1;
 #endif
-    int r = _main(argc, argv);
-#if defined(_MSC_VER) && defined(DEBUG)
+
+static void after_main(void) { 
+#if defined(_MSC_VER) && (defined(DEBUG) || defined(_DEBUG))
     //  void* intentional_leak_for_testing = malloc(153); (void)intentional_leak_for_testing;
         _CrtMemState s2, s3;
         _CrtMemCheckpoint(&s2);
@@ -172,7 +158,28 @@ int main(int argc, const char **argv) {
             __debugbreak();    // this is your chance to examine leaked memory in Alt+6 Debugger Memory View pane
         }
 #endif
-    return r;
+}
+
+static_init(before_main) { 
+#if defined(_MSC_VER) && (defined(DEBUG) || defined(_DEBUG))
+    _CrtMemCheckpoint(&s1);
+    _CrtSetDbgFlag((_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF) & ~_CRTDBG_CHECK_CRT_DF);
+//  _CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF | _CRTDBG_CHECK_CRT_DF | _CRTDBG_CHECK_ALWAYS_DF);
+/*
+    _crtBreakAlloc = 241; // {241} crt block at 0x012B13E8, subtype 0, 24 bytes long
+    _CrtSetBreakAlloc(241);
+*/
+#endif
+    atexit(after_main); 
+}
+
+int main(int argc, const char **argv) {
+    (void) argc; (void) argv; // unused
+    str_test();
+    str2str_map_test();
+    void* intentional_leak = malloc(1); (void)intentional_leak;
+    getchar();
+    return 0;
 }
 
 #ifdef __cplusplus

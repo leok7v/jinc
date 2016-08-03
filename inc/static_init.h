@@ -39,15 +39,15 @@
 #if defined(_MSC_VER)
     #pragma section(".CRT$XCU",read)
     #ifdef _WIN64
-        #define _static_init_(f, c) static void f##c(void); __declspec(allocate(".CRT$XCU")) void (*f##c##_)(void) = f##c; __pragma(comment(linker,"/include:" #f #c "_")) static void f##c(void)
+        #define _static_init_(n, f, c) static void n##f##c(void); __declspec(allocate(".CRT$XCU")) void (*n##f##c##_)(void) = n##f##c; __pragma(comment(linker,"/include:"  #n #f #c "_")) static void n##f##c(void)
     #else
-        #define _static_init_(f, c) static void f##c(void); __declspec(allocate(".CRT$XCU")) void (*f##c##_)(void) = f##c; __pragma(comment(linker,"/include:_" #f #c "_")) static void f##c(void)
+        #define _static_init_(n, f, c) static void n##f##c(void); __declspec(allocate(".CRT$XCU")) void (*n##f##c##_)(void) = n##f##c; __pragma(comment(linker,"/include:_" #n #f #c "_")) static void n##f##c(void)
     #endif
-    #define static_init_(f, c) _static_init_(f, c)
-    #define static_init static_init_(_STATIC_INIT_EXPAND_(_STATIC_INIT_),_STATIC_INIT_EXPAND_(__COUNTER__))
+    #define static_init_(n, f, c) _static_init_(n, f, c)
+    #define static_init(n) static_init_(n, _STATIC_INIT_EXPAND_(_STATIC_INIT_) ,_STATIC_INIT_EXPAND_(__COUNTER__))
 #else
-    #define static_init_(f, c) __attribute__((constructor)) static void f##c (void)
-    #define static_init static_init_(_STATIC_INIT_EXPAND_(_STATIC_INIT_),_STATIC_INIT_EXPAND_(__COUNTER__))
+    #define static_init_(n, f, c) __attribute__((constructor)) static void n##f##c (void)
+    #define static_init static_init_(n, _STATIC_INIT_EXPAND_(_STATIC_INIT_), _STATIC_INIT_EXPAND_(__COUNTER__))
 #endif
 
 /* 
@@ -57,7 +57,7 @@
     }
     usage:
     static void after_main(void) { printf("called after main()\n"); }
-    static_init  { printf("called before main\n"); atexit(after_main); }
+    static_init(unique_name)  { printf("called before main\n"); atexit(after_main); }
 
     int main() {   
         printf("main()\n");
