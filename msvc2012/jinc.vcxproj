@@ -392,6 +392,7 @@
     <ClInclude Include="..\inc\s2i.h" />
     <ClInclude Include="..\inc\i2i.h" />
     <ClInclude Include="..\inc\s2s.h" />
+    <ClInclude Include="..\inc\static_init.h" />
     <ClInclude Include="..\inc\std.h" />
     <ClInclude Include="..\inc\str2str.h" />
     <ClInclude Include="..\inc\str.h" />

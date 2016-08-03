@@ -4,6 +4,7 @@
 #include "i2i.h"
 #include "s2i.h"
 #include "clock.h"
+#include "static_init.h"
 #ifdef _MSC_VER
 #include <crtdbg.h>
 #endif
@@ -13,7 +14,7 @@ extern "C" {
 #endif
 
 static char timestamp_storage[16 * 1024];
-s2i_t timestamps;
+static s2i_t timestamps;
 
 void timestamp(const char *label) {
     if (timestamps == null) {
@@ -138,6 +139,9 @@ int _main(int argc, const char **argv) {
     getchar();
     return 0;
 }
+
+static void after_main(void) { printf("called after main()\n"); }
+static_void() { printf("called before main\n"); atexit(after_main); }
 
 int main(int argc, const char **argv) {
     (void) argc;

@@ -61,6 +61,9 @@
     <ClInclude Include="..\inc\s2s.h">
       <Filter>h</Filter>
     </ClInclude>
+    <ClInclude Include="..\inc\static_init.h">
+      <Filter>h</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="..\res\c.ico">
