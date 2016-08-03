@@ -57,7 +57,7 @@
     }
     usage:
     static void after_main(void) { printf("called after main()\n"); }
-    static_void() { printf("called before main\n"); atexit(after_main); }
+    static_init  { printf("called before main\n"); atexit(after_main); }
 
     int main() {   
         printf("main()\n");
