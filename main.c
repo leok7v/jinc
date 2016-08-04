@@ -4,12 +4,11 @@
 #include "i2i.h"
 #include "s2i.h"
 #include "clock.h"
-#include "static_init.h"
-#if defined(_MSC_VER) && (defined(DEBUG) || defined(_DEBUG))
-#define _CRTDBG_MAP_ALLOC
-#undef strdup
-#undef _malloca
-#include <crtdbg.h>
+#if defined(_MSC_VER) & (defined(DEBUG) | defined(_DEBUG))
+  #define _CRTDBG_MAP_ALLOC
+  #undef strdup
+  #undef _malloca
+  #include <crtdbg.h>
 #endif
 
 #ifdef __cplusplus
@@ -164,7 +163,7 @@ static_init(before_main) {
 #if defined(_MSC_VER) && (defined(DEBUG) || defined(_DEBUG))
     _CrtMemCheckpoint(&s1);
     _CrtSetDbgFlag((_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF) & ~_CRTDBG_CHECK_CRT_DF);
-//  _CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF | _CRTDBG_CHECK_CRT_DF | _CRTDBG_CHECK_ALWAYS_DF);
+//  _CrtSetDbgFlag( _CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF | _CRTDBG_CHECK_CRT_DF | _CRTDBG_CHECK_ALWAYS_DF);
 /*
     _crtBreakAlloc = 241; // {241} crt block at 0x012B13E8, subtype 0, 24 bytes long
     _CrtSetBreakAlloc(241);

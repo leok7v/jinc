@@ -99,6 +99,39 @@ static inline void* memsetz(void* a, int byte, int size) { if (a != null) { mems
 
 #endif // GCC / MSVC
 
+/* static_init(module) { ... } */
+
+#define _STATIC_INIT_EXPAND_(a) a
+#define _STATIC_INIT_CONCATENATE_(a, b) _STATIC_INIT_EXPAND_(a) ## _STATIC_INIT_EXPAND_(b)
+#define _STATIC_INIT_ _static_init_
+#ifdef _MSC_VER
+#pragma section(".CRT$XCU",read)
+#ifdef _WIN64
+#define _static_init_(n, f, c) static void n##f##c(void); __declspec(allocate(".CRT$XCU")) void (*n##f##c##_)(void) = n##f##c; __pragma(comment(linker,"/include:"  #n #f #c "_")) static void n##f##c(void)
+#else
+#define _static_init_(n, f, c) static void n##f##c(void); __declspec(allocate(".CRT$XCU")) void (*n##f##c##_)(void) = n##f##c; __pragma(comment(linker,"/include:_" #n #f #c "_")) static void n##f##c(void)
+#endif
+#define static_init_(n, f, c) _static_init_(n, f, c)
+#define static_init(n) static_init_(n, _STATIC_INIT_EXPAND_(_STATIC_INIT_) ,_STATIC_INIT_EXPAND_(__COUNTER__))
+#else
+#define _static_init_(n, f, c) __attribute__((constructor)) static void n##f##c(void)
+#define static_init_(n, f, c) _static_init_(n, f, c)
+#define static_init(n) static_init_(n, _STATIC_INIT_EXPAND_(_STATIC_INIT_) ,_STATIC_INIT_EXPAND_(__COUNTER__))
+#endif
+
+/*
+    same as in Java:
+        static { System.out.println("called before main()\n"); }
+    usage:
+        static void after_main(void) { printf("called after main()\n"); }
+        static_init(unique_name)  { printf("called before main\n"); atexit(after_main); }
+
+        int main() {
+            printf("main()\n");
+        }
+ */
+
+
 #ifdef __cplusplus
 }
 #endif
